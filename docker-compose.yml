@@ -1,4 +1,4 @@
-version: "0.0"
+version: "3.3"
 services:
   php:
     build: './php/'
@@ -17,7 +17,7 @@ services:
       - frontend
       - backend
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - /var/www/html/:/var/www/html/
   mysql:
@@ -27,7 +27,7 @@ services:
     networks:
       - backend
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_ROOT_PASSWORD=YOUR_SECRET_PASSWORD
 networks:
   frontend:
   backend:
