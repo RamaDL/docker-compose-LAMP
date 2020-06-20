@@ -55,7 +55,10 @@ RUN echo "https://repos.php.earth/alpine/v3.7"  >> /etc/apk/repositories \
                                     php7.1-opcache \
                                     php7.1-zip \
                                     php7.1-zlib \
-                                    php7.1-fpm
+                                    php7.1-fpm \
+                                    git \
+                                    composer 
+#git and composer are required for yii2
 
 COPY ./assets/php.ini /etc/php/7.1/php.ini 
 COPY ./assets/www.conf /etc/php/7.1/php-fpm.d/www.conf

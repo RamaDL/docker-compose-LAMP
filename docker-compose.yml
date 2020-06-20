@@ -29,6 +29,7 @@ services:
       - backend
     environment:
       - MYSQL_ROOT_PASSWORD=YOUR_SECRET_PASSWORD
+    volumes: /var/lib/mysql/:/var/lib/mysql/
 networks:
   frontend:
   backend:
