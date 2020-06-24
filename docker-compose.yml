@@ -1,36 +1,55 @@
 version: "3.3"
 services:
+  proxy:
+    build: './nginx-rproxy'
+    container_name: reverse-proxy
+    restart: always
+    networks: 
+      - frontend
+    depends_on:
+      - apache
+    ports:
+      # Solo el proxy tiene puertos expuestos,
+      # los demas contenedores salen por aqui.
+      - "127.0.0.1:80:80"
+      - "443:443"
   php:
     build: './php/'
+    container_name: php7.1
     restart: always
     networks:
       - backend
-    volumes:
-      - /var/www/html/:/var/www/html/
   apache:
     build: './apache/'
+    container_name: apache2.4
     restart: always
-    depends_on:
-      - php
-      - mysql
     networks:
       - frontend
       - backend
-    ports:
-      - "80:80"
+    depends_on:
+      - php
+      - mysql
     volumes:
-      - /var/www/html/:/var/www/html/
+      #CUSTOM rename with YOUR_APP_VOLUME_NAME
+      - APP_VOLUME:/var/www/html/
   mysql:
     image: mysql:5.6.40
+    container_name: mysql5.6.40
     restart: always
+    #CUSTOM remove ports if you dont want to access DBMS from host 
     ports: 
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
     networks:
       - backend
     environment:
       - MYSQL_ROOT_PASSWORD=YOUR_SECRET_PASSWORD
     volumes: 
-      - /var/lib/mysql/:/var/lib/mysql/
+      #CUSTOM rename with YOUR_DB_VOLUME_NAME
+      - DB_VOLUME:/var/lib/mysql/
+volumes:
+  # CUSTOM
+  APP_VOLUME:
+  DB_VOLUME:
 networks:
   frontend:
   backend:

@@ -18,6 +18,8 @@ RUN echo "https://repos.php.earth/alpine/v3.7"  >> /etc/apk/repositories \
 COPY ./assets/httpd.conf /etc/apache2/httpd.conf 
 COPY ./assets/default.conf /etc/apache2/conf.d/default.conf
 
-EXPOSE 80
+#expose abre los puertos del contenedor para que sean accedido por otros contenedore 
+#pero no pueden ser accedidos 
+EXPOSE 80/tcp
 
 CMD ["httpd", "-D", "FOREGROUND"]
