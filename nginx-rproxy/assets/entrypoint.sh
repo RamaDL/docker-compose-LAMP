@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Get certs
-certbot certonly -n -d example.com \
+certbot certonly -n -d example.com -d www.example.com \
   --standalone --preferred-challenges http --email example@yopmail.com --agree-tos --expand
 
 # Kick off cron
