@@ -4,13 +4,14 @@ LABEL maintainer="RamaDL ramirodldeveloper@gmail.com"
 
 WORKDIR /www
 
-RUN apk add --no-cache  certbot nginx \
+RUN apk add --no-cache  certbot nginx openssl\
     && adduser -D -g 'www' www \
     && chown -R www:www /var/lib/nginx \
     && chown -R www:www /www \
     && mkdir -p /run/nginx \
     && mv /etc/nginx/nginx.conf /etc/nginx/default.nginx.conf \
-    && mkdir /var/lib/certbot
+    && mkdir /var/lib/certbot \
+    && openssl dhparam -out /etc/nginx/dhparam.pem 4096
 
 COPY ./assets/nginx.conf /etc/nginx/nginx.conf 
 #CUSTOM change YOUR_DOMAIN_NAME with your domain name
@@ -23,5 +24,5 @@ COPY ./assets/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh \
     && chmod +x /etc/periodic/weekly/renew
 
-#ENTRYPOINT [ "../entrypoint.sh" ]
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT [ "../entrypoint.sh" ]
+#CMD ["nginx", "-g", "daemon off;"]
