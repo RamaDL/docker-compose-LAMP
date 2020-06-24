@@ -15,7 +15,7 @@ RUN apk add --no-cache  certbot nginx \
 COPY ./assets/nginx.conf /etc/nginx/nginx.conf 
 #CUSTOM change YOUR_DOMAIN_NAME with your domain name
 COPY ./assets/docker-apache.conf ./assets/ssl-params.inc ./assets/proxy_set_header.inc /etc/nginx/conf.d/
-VOLUME [ "/Users/prostack/Desktop/lpm/:/etc/letsencrypt/" ]
+
 # Copy renew cron script
 COPY ./assets/renew /etc/periodic/weekly/renew
 # Copy entrypoint
