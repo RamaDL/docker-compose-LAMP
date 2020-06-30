@@ -11,7 +11,7 @@ services:
     ports:
       # Solo el proxy tiene puertos expuestos,
       # los demas contenedores salen por aqui.
-      - "127.0.0.1:80:80"
+      - "80:80"
       - "443:443"
   php:
     build: './php/'
@@ -19,6 +19,9 @@ services:
     restart: always
     networks:
       - backend
+    volumes:
+      #CUSTOM rename with YOUR_APP_VOLUME_NAME
+      - APP_VOLUME:/var/www/html/
   apache:
     build: './apache/'
     container_name: apache2.4
