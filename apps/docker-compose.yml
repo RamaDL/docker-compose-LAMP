@@ -1,0 +1,63 @@
+version: "3.5"
+services:
+  web:
+    image: nginx:latest
+    restart: always
+    volumes:
+      - app:/var/www/html:ro
+      - $PWD/nginx.conf:/etc/nginx/nginx.conf
+    links:
+      - php
+      - db
+    environment:
+      - VIRTUAL_HOST=localhost
+    networks:
+      - proxy
+      - default
+
+  php:
+    image: kafe/appname:1.0
+    build: './php/'
+    restart: always
+    volumes:
+      - app:/var/www/html
+    env_file:
+      - db.env
+
+  cron:
+    image: kafe/php:1.0
+    restart: always
+    volumes:
+      - app:/var/www/html
+    env_file:
+      - db.env
+    command: cron.sh
+
+  db:
+    # hay problemas con versiones nuevas de la imagen
+    # de mariadb y el script de init que crea
+    # MYSQL_DATABASE y da grants a MYSQL_USER
+    image: mariadb:10.3.17
+    restart: always
+    env_file:
+      - db.env
+    volumes:
+      - db:/var/lib/mysql
+
+
+
+volumes:
+  # La app no es algo que tenga que guardar
+  # así que no me importa que persista en un lugar
+  # guardable. Solo defino el volume y que caiga
+  # donde a docker le parezca.
+  app:
+  db:
+    driver_opts:
+      type: none
+      device: $PWD/dbdata
+      o: bind
+
+networks:
+  proxy:
+    name: proxynet

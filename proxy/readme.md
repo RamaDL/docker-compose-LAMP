@@ -1,6 +1,10 @@
 #  PROXY COMPOSE
+
 Todos usan un proxy con letsencrypt.
 Usemos el que usan todos con minimas modificaciones.
+
+Es cada server tiene que haber una instancia de este proxy y pueden
+haber varias de apps usando distintos virtualhosts
 
 ```
 +----------+

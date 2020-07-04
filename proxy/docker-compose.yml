@@ -24,7 +24,7 @@ services:
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
-      - proxynet
+      - proxy
       - default
 
   letsencrypt:
@@ -38,7 +38,7 @@ services:
     networks:
       - proxy
     depends_on:
-      - proxynet
+      - proxy
 
 networks:
   proxy:
