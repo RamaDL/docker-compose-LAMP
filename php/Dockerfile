@@ -1,6 +1,6 @@
 FROM alpine:3.7
 
-LABEL maintainer="RamaDL ramirodldeveloper@gmail.com"
+LABEL maintainer="RamaDL ramirodldeveloper@gmail.com" 
 
 WORKDIR /var/www/html/
 
@@ -57,24 +57,12 @@ RUN echo "https://repos.php.earth/alpine/v3.7"  >> /etc/apk/repositories \
                                     php7.1-zlib \
                                     php7.1-fpm \
                                     git \
-                                    composer \
-                                    bash rsync figlet
+                                    composer 
 #git and composer are required for yii2
-# bash me es más comodo que sh para hacer el start.sh
-# rsync lo uso para meter el codigo en su lugar
-# filget me permite generar mesajes más visibles en el log de salida de docker
 
-COPY ./assets/php.ini /etc/php/7.1/php.ini
+COPY ./assets/php.ini /etc/php/7.1/php.ini 
 COPY ./assets/www.conf /etc/php/7.1/php-fpm.d/www.conf
-
-COPY ./assets/start.sh /usr/local/bin/start.sh
-RUN chmod a+x /usr/local/bin/start.sh
-
-COPY ./assets/cron.sh /usr/local/bin/cron.sh
-RUN chmod a+x /usr/local/bin/cron.sh
-
-ADD code /code_repo/
 
 EXPOSE 9000
 
-CMD ["/usr/local/bin/start.sh"]
+CMD ["php-fpm7.1", "-F"]
