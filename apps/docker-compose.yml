@@ -11,6 +11,8 @@ services:
       - db
     environment:
       - VIRTUAL_HOST=localhost
+      - LETSENCRYPT_HOST=localhost
+      - LETSENCRYPT_EMAIL=someone@example.com
     networks:
       - proxy
       - default
