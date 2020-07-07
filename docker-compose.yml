@@ -4,6 +4,11 @@ services:
     build: './nginx-rproxy'
     container_name: reverse-proxy
     restart: always
+    environment: 
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - WWW_DOMAIN_NAME=${WWW_DOMAIN_NAME}
+      - DOMAIN_IP=${DOMAIN_IP}
+      - DOMAIN_EMAIL=${DOMAIN_EMAIL}
     networks: 
       - frontend
     depends_on:
@@ -45,7 +50,7 @@ services:
     networks:
       - backend
     environment:
-      - MYSQL_ROOT_PASSWORD=YOUR_SECRET_PASSWORD
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes: 
       #CUSTOM rename with YOUR_DB_VOLUME_NAME
       - DB_VOLUME:/var/lib/mysql/

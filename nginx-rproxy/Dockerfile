@@ -10,19 +10,17 @@ RUN apk add --no-cache  certbot nginx openssl\
     && chown -R www:www /www \
     && mkdir -p /run/nginx \
     && mv /etc/nginx/nginx.conf /etc/nginx/default.nginx.conf \
-    && mkdir /var/lib/certbot \
-    && openssl dhparam -out /etc/nginx/dhparam.pem 4096
+    && mkdir /var/lib/certbot 
+    #&& openssl dhparam -out /etc/nginx/dhparam.pem 4096
 
 COPY ./assets/nginx.conf /etc/nginx/nginx.conf 
-#CUSTOM change YOUR_DOMAIN_NAME with your domain name
 COPY ./assets/docker-apache.conf ./assets/ssl-params.inc ./assets/proxy_set_header.inc /etc/nginx/conf.d/
 
 # Copy renew cron script
 COPY ./assets/renew /etc/periodic/weekly/renew
 # Copy entrypoint
-COPY ./assets/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh \
-    && chmod +x /etc/periodic/weekly/renew
+COPY ./assets/entrypoint.sh ./assets/env_replace.sh /
+RUN chmod +x /entrypoint.sh /env_replace.sh /etc/periodic/weekly/renew
 
 ENTRYPOINT [ "../entrypoint.sh" ]
 #CMD ["nginx", "-g", "daemon off;"]
