@@ -13,11 +13,12 @@ RUN apk add --no-cache  certbot nginx openssl\
     && mkdir /var/lib/certbot 
     #&& openssl dhparam -out /etc/nginx/dhparam.pem 4096
 
-COPY ./assets/nginx.conf /etc/nginx/nginx.conf 
-COPY ./assets/docker-apache.conf ./assets/ssl-params.inc ./assets/proxy_set_header.inc /etc/nginx/conf.d/
+COPY ./assets/nginx-config/nginx.conf /etc/nginx/nginx.conf 
+COPY ./assets/nginx-config/docker-apache.conf ./assets/nginx-config/ssl-params.inc \ 
+     ./assets/nginx-config/proxy_set_header.inc /etc/nginx/conf.d/
 
 # Copy renew cron script
-COPY ./assets/renew /etc/periodic/weekly/renew
+COPY ./assets/ssl/renew /etc/periodic/weekly/renew
 # Copy entrypoint
 COPY ./assets/entrypoint.sh ./assets/env_replace.sh /
 RUN chmod +x /entrypoint.sh /env_replace.sh /etc/periodic/weekly/renew

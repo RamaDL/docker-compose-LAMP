@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #UNCOMENT to validate domain to run over https
-# # Get certs
+# # Validate certs
 # certbot certonly -n -d example.com -d www.example.com\
 #   --standalone --preferred-challenges http --email DOMAIN_EMAIL --agree-tos --expand
 
