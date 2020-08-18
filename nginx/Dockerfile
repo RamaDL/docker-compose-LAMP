@@ -10,8 +10,8 @@ RUN apk add --no-cache  certbot nginx openssl\
     && chown -R www:www /www \
     && mkdir -p /run/nginx \
     && mv /etc/nginx/nginx.conf /etc/nginx/default.nginx.conf \
-    && mkdir /var/lib/certbot 
-    #&& openssl dhparam -out /etc/nginx/dhparam.pem 4096
+    && mkdir /var/lib/certbot \
+    && openssl dhparam -out /etc/nginx/dhparam.pem 4096
 
 COPY ./assets/nginx-config/nginx.conf /etc/nginx/nginx.conf 
 COPY ./assets/nginx-config/docker-apache.conf ./assets/nginx-config/ssl-params.inc \ 
