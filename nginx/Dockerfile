@@ -21,7 +21,7 @@ COPY ./assets/nginx-config/docker-apache.conf ./assets/nginx-config/ssl-params.i
 COPY ./assets/ssl/renew /etc/periodic/weekly/renew
 # Copy entrypoint
 COPY ./assets/entrypoint.sh ./assets/env_replace.sh /
-RUN chmod +x /env_replace.sh /etc/periodic/weekly/renew
+RUN chmod +x /entrypoint.sh /env_replace.sh /etc/periodic/weekly/renew
 
 ENTRYPOINT [ "../entrypoint.sh" ]
 #CMD ["nginx", "-g", "daemon off;"]
