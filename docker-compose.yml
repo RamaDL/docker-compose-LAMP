@@ -20,7 +20,7 @@ services:
       - "443:443"
   php:
     build: './php/'
-    container_name: php
+    container_name: php-fpm-gop
     restart: always
     networks:
       - backend
@@ -29,7 +29,7 @@ services:
       - APP_VOLUME:/var/www/html/
   apache:
     build: './apache/'
-    container_name: server
+    container_name: apache
     restart: always
     networks:
       - frontend
@@ -42,7 +42,7 @@ services:
       - APP_VOLUME:/var/www/html/
   mysql:
     image: mysql:5.6.40
-    container_name: db
+    container_name: mysql
     restart: always
     #CUSTOM remove ports if you dont want to access DBMS from host 
     ports: 
