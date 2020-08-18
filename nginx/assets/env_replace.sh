@@ -1,3 +1,3 @@
 awk -v domain_name=$DOMAIN_NAME -v domain_ip=$DOMAIN_IP  '{gsub(/example.com/,domain_name)}{gsub(/domain_ip/,domain_ip)}{print $0}' /etc/nginx/conf.d/docker-apache.conf > /etc/nginx/conf.d/docker-apache.conf_tmp && mv /etc/nginx/conf.d/docker-apache.conf_tmp /etc/nginx/conf.d/docker-apache.conf
-awk -v domain_name=$DOMAIN_NAME -v domain_mail=$DOMAIN_EMAIL '{gsub(/example.com/,domain_name)}{gsub(/DOMAIN_EMAIL/,domain_mail)}{print $0}' /entrypoint.sh > /entrypoint.sh_test && mv /entrypoint.sh_test /entrypoint.sh
-chmod +x /entrypoint.sh
+awk -v domain_name=$DOMAIN_NAME -v domain_mail=$DOMAIN_EMAIL '{gsub(/example.com/,domain_name)}{gsub(/DOMAIN_EMAIL/,domain_mail)}{print $0}' /scripts/init.sh > /scripts/init.sh_test && mv /scripts/init.sh_test /scripts/init.sh
+chmod +x /scripts/init.sh
