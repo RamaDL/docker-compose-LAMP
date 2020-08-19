@@ -11,13 +11,18 @@ services:
       - DOMAIN_EMAIL=${DOMAIN_EMAIL}
     networks: 
       - frontend
+      - frontend-testing
     depends_on:
       - apache
+      - apache-testing
     ports:
       # Solo el proxy tiene puertos expuestos,
       # los demas contenedores salen por aqui.
       - "80:80"
       - "443:443"
+  ############################
+  ###### Production app ######
+  ############################
   php:
     build: './php/'
     container_name: php
@@ -54,10 +59,53 @@ services:
     volumes: 
       #CUSTOM rename with YOUR_DB_VOLUME_NAME
       - DB_VOLUME:/var/lib/mysql/
+  ############################
+  #######  Testing app #######
+  ############################
+  php-testing:
+    build: './php/'
+    container_name: php-fpm-testing
+    restart: always
+    networks:
+      - backend-testing
+    volumes:
+      #CUSTOM rename with YOUR_APP_VOLUME_NAME
+      - APP_VOLUME_TESTING:/var/www/html/
+  apache-testing:
+    build: './apache/'
+    container_name: apache-testing
+    restart: always
+    networks:
+      - frontend-testing
+      - backend-testing
+    depends_on:
+      - php-testing
+      - mysql-testing
+    volumes:
+      #CUSTOM rename with YOUR_APP_VOLUME_NAME
+      - APP_VOLUME_TESTING:/var/www/html/
+  mysql-testing:
+    image: mysql:5.6.40
+    container_name: mysql-testing
+    restart: always
+    #CUSTOM remove ports if you dont want to access DBMS from host 
+    ports: 
+      - "127.0.0.1:3307:3306"
+    networks:
+      - backend-testing
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes: 
+      #CUSTOM rename with YOUR_DB_VOLUME_NAME
+      - DB_VOLUME_TESTING:/var/lib/mysql/
 volumes:
   # CUSTOM
   APP_VOLUME:
   DB_VOLUME:
+  APP_VOLUME_TESTING:
+  DB_VOLUME_TESTING:
 networks:
   frontend:
   backend:
+  frontend-testing:
+  backend-testing:
